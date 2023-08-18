@@ -71,7 +71,7 @@ const char *
 suscan_bundle_get_soapysdr_module_path(void)
 {
   return suscan_bundle_get_resource_path(
-            CFSTR("../Frameworks/SoapySDR/modules" SOAPY_SDR_ABI_VERSION));
+            CFSTR("../Frameworks/SoapySDR/modules"));
 }
 #endif /* SUSCAN_THIN_CLIENT */
 
