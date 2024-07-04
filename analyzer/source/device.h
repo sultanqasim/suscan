@@ -47,6 +47,7 @@ struct suscan_source_device_info {
   PTR_LIST_CONST(char, antenna);
   const double *samp_rate_list;
   unsigned int samp_rate_count;
+  unsigned int channel_count;
   SUFREQ freq_min;
   SUFREQ freq_max;
 };
@@ -59,6 +60,7 @@ struct suscan_source_device_info {
   0, /* antenna_count */                        \
   NULL, /* samp_rate_list */                    \
   0, /* samp_rate_count */                      \
+  0, /* channel_count */                        \
   0, /* freq_min */                             \
   0, /* freq_max */                             \
 }
@@ -78,6 +80,7 @@ struct suscan_source_device {
   PTR_LIST(char, antenna);
   double *samp_rate_list;
   unsigned int samp_rate_count;
+  unsigned int channel_count;
 
   SUFREQ freq_min;
   SUFREQ freq_max;

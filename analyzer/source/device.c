@@ -231,6 +231,8 @@ suscan_source_reset_devices(void)
         free(g_device_list[i]->samp_rate_list);
         g_device_list[i]->samp_rate_list = NULL;
       }
+
+      g_device_list[i]->channel_count = 0;
     }
 
 done:
@@ -323,6 +325,7 @@ suscan_source_device_populate_info(suscan_source_device_t *dev)
   size_t gain_count = 0;
   size_t range_count;
   size_t samp_rate_count;
+  size_t channel_count;
   struct suscan_source_gain_desc *desc;
   unsigned int i;
 
@@ -409,15 +412,14 @@ suscan_source_device_populate_info(suscan_source_device_t *dev)
           0,
           gain_list[i]);
     }
+  }
 
-    /* Get rates */
-    SU_TRY(
-        samp_rate_list = SoapySDRDevice_listSampleRates(
-            sdev,
-            SOAPY_SDR_RX,
-            0,
-            &samp_rate_count));;
-
+  /* Get rates */
+  if ((samp_rate_list = SoapySDRDevice_listSampleRates(
+          sdev,
+          SOAPY_SDR_RX,
+          0,
+          &samp_rate_count)) != NULL) {
     SU_TRY(
       suscan_source_device_fix_rates(
         dev,
@@ -428,16 +430,19 @@ suscan_source_device_populate_info(suscan_source_device_t *dev)
       goto done;
 
     SU_ALLOCATE_MANY(dev->samp_rate_list, samp_rate_count, double);
-    
+
     memcpy(
         dev->samp_rate_list,
         samp_rate_list,
         samp_rate_count * sizeof(double));
 
     dev->samp_rate_count = samp_rate_count;
-    free(samp_rate_list);
-    samp_rate_list = NULL;
   }
+
+  /* Get channel count */
+  SU_TRY(
+      channel_count = SoapySDRDevice_getNumChannels(sdev, SOAPY_SDR_RX));
+  dev->channel_count = channel_count;
 
   ok = SU_TRUE;
 
@@ -453,13 +458,6 @@ done:
 
   if (samp_rate_list != NULL)
     free(samp_rate_list);
-
-  /*
-   * I literally have no idea what to do with this.
-   */
-
-  /*if (freqRanges != NULL)
-    free(freqRanges); */
 
   if (sdev != NULL)
     SoapySDRDevice_unmake(sdev);
@@ -504,6 +502,8 @@ suscan_source_device_get_info(
       info->samp_rate_list  = (const double *) dev->samp_rate_list;
       info->samp_rate_count = dev->samp_rate_count;
 
+      info->channel_count   = dev->channel_count;
+
       info->freq_min        = dev->freq_min;
       info->freq_max        = dev->freq_max;
   } else {
@@ -518,6 +518,8 @@ suscan_source_device_get_info(
 
     info->samp_rate_list  = NULL;
     info->samp_rate_count = 0;
+
+    info->channel_count   = 0;
 
     info->freq_min        = 0;
     info->freq_max        = 3e9;
