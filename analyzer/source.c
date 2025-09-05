@@ -1269,6 +1269,8 @@ suscan_source_new(suscan_source_config_t *config)
   if (config->average > 1)
     SU_TRY_FAIL(suscan_source_configure_decimation(new, config->average));
 
+  new->info.channels = 1;
+
   /* Search by name */
   analyzer = suscan_device_spec_analyzer(
       suscan_source_config_get_device_spec(config));

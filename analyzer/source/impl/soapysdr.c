@@ -461,6 +461,9 @@ suscan_source_soapysdr_populate_device_specific(
   info->freq_max = freq_max;
   info->freq_min = freq_min;
 
+  /* Populate channel count */
+  info->channels = SoapySDRDevice_getNumChannels(self->sdr, SOAPY_SDR_RX);
+
   /* Populate antenna list */
   if ((antenna_list = SoapySDRDevice_listAntennas(
           self->sdr,
