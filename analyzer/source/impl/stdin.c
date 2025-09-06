@@ -370,6 +370,7 @@ SUPRIVATE struct suscan_source_interface g_stdin_source =
   .set_dc_remove   = NULL,
   .set_agc         = NULL,
   .get_freq_limits = NULL,
+  .get_channel_count = NULL,
   .estimate_size   = NULL,
   .seek            = NULL,
   .max_size        = NULL,

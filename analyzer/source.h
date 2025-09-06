@@ -79,6 +79,7 @@ struct suscan_source_interface {
     struct suscan_source_metadata *);
   SUBOOL   (*is_real_time) (const suscan_source_config_t *);
   SUBOOL   (*get_freq_limits) (const suscan_source_config_t *, SUFREQ *, SUFREQ *);
+  unsigned (*get_channel_count) (const suscan_source_config_t *);
 
   SUBOOL   (*start) (void *);
   SUBOOL   (*cancel) (void *);

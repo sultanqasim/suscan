@@ -277,6 +277,28 @@ suscan_source_config_set_lnb_freq(suscan_source_config_t *config, SUFREQ freq)
   config->lnb_freq = freq;
 }
 
+
+unsigned int
+suscan_source_config_get_channel_count(const suscan_source_config_t *config)
+{
+  const struct suscan_source_interface *iface;
+  const char *analyzer = suscan_device_spec_analyzer(
+      suscan_source_config_get_device_spec(config));
+  unsigned int channel_count = 1;
+
+  iface = suscan_source_lookup(analyzer, config->type);
+  if (iface == NULL)
+    goto done;
+
+  if (iface->get_channel_count == NULL)
+    goto done;
+
+  channel_count = (iface->get_channel_count)(config);
+
+done:
+  return channel_count;
+}
+
 SUFLOAT
 suscan_source_config_get_bandwidth(const suscan_source_config_t *config)
 {

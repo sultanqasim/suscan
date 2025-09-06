@@ -702,6 +702,7 @@ SUPRIVATE struct suscan_source_interface g_file_source =
   .set_dc_remove   = NULL,
   .set_agc         = NULL,
   .get_freq_limits = NULL,
+  .get_channel_count = NULL,
 };
 
 SUBOOL

@@ -242,11 +242,12 @@ SUPRIVATE struct suscan_source_interface g_tonegen_source =
   .set_agc         = suscan_source_tonegen_set_agc,
   .get_time        = suscan_source_tonegen_get_time,
 
-  /* Unser members */
+  /* Unset members */
   .seek            = NULL,
   .max_size        = NULL,
   .estimate_size   = NULL,
   .get_freq_limits = NULL,
+  .get_channel_count = NULL,
   .is_real_time    = NULL,
   .guess_metadata  = NULL,
 };

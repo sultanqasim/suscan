@@ -144,6 +144,9 @@ void suscan_source_config_set_lnb_freq(
     suscan_source_config_t *config,
     SUFREQ lnb_freq);
 
+unsigned int suscan_source_config_get_channel_count(
+        const suscan_source_config_t *config);
+
 SUFLOAT suscan_source_config_get_bandwidth(
     const suscan_source_config_t *config);
 void suscan_source_config_set_bandwidth(

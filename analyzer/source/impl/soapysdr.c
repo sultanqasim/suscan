@@ -830,6 +830,20 @@ done:
   return ok;
 }
 
+SUPRIVATE unsigned int
+suscan_source_soapysdr_get_channel_count(
+  const suscan_source_config_t *self)
+{
+  struct suscan_device_properties *prop = NULL;
+  unsigned int channel_count = 0;
+
+  SU_TRY(prop = suscan_device_spec_properties(self->device_spec));
+  channel_count = prop->channels;
+
+done:
+  return channel_count;
+}
+
 SUPRIVATE struct suscan_source_interface g_soapysdr_source =
 {
   .name            = "soapysdr",
@@ -851,6 +865,7 @@ SUPRIVATE struct suscan_source_interface g_soapysdr_source =
   .set_agc         = suscan_source_soapysdr_set_agc,
   .get_time        = suscan_source_soapysdr_get_time,
   .get_freq_limits = suscan_source_soapysdr_get_freq_limits,
+  .get_channel_count = suscan_source_soapysdr_get_channel_count,
 
   /* Unset members */
   .seek           = NULL,
