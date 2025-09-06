@@ -132,7 +132,6 @@ SUSCAN_SERIALIZABLE(suscan_source_info) {
   SUFREQ   freq_min;
   SUFREQ   freq_max;
   SUFREQ   lnb;
-  uint32_t channels;
 
   SUFLOAT  bandwidth;
   SUFLOAT  ppm;
